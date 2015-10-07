@@ -1,8 +1,8 @@
 
 /**
  * Title:        Team 2 <p>
- * Description:  Gruppeneinteilungsprogramm für Ferienfreizeiten...
- * Version für Java 2 Plattform<p>
+ * Description:  Gruppeneinteilungsprogramm fï¿½r Ferienfreizeiten...
+ * Version fï¿½r Java 2 Plattform<p>
  * Copyright:    Copyright (c) Manfred Schenk<p>
  * Company:      <p>
  * @author Manfred Schenk
@@ -222,22 +222,22 @@ public class Teamframe extends JFrame implements PropertyChangeListener {
     });
     menuFileExit.setToolTipText("Programm beenden");
     menuFileExit.setMnemonic('E');
-    menuHelpAbout.setToolTipText("Informationen über das Programm");
+    menuHelpAbout.setToolTipText("Informationen ï¿½ber das Programm");
     menuHelpAbout.setMnemonic('B');
     jLabel1.setText("Anzahl der Personen:");
     personenzahl.setEditable(false);
     personenzahl.setText("> 00 <");
     personenzahl.setColumns(4);
-    jButton1.setToolTipText("die ausgewählten Personendaten ändern");
-    jButton1.setText("Person ändern");
+    jButton1.setToolTipText("die ausgewï¿½hlten Personendaten ï¿½ndern");
+    jButton1.setText("Person ï¿½ndern");
     jButton1.addActionListener(new java.awt.event.ActionListener() {
 
       public void actionPerformed(ActionEvent e) {
         jButton1_actionPerformed(e);
       }
     });
-    jButton2.setToolTipText("Die ausgewählte Persondaten löschen");
-    jButton2.setText("Person löschen");
+    jButton2.setToolTipText("Die ausgewï¿½hlte Persondaten lï¿½schen");
+    jButton2.setText("Person lï¿½schen");
     jButton2.addActionListener(new java.awt.event.ActionListener() {
 
       public void actionPerformed(ActionEvent e) {
@@ -277,8 +277,8 @@ public class Teamframe extends JFrame implements PropertyChangeListener {
         jButton5_actionPerformed(e);
       }
     });
-    jCheckBox1.setToolTipText("Wenn männlich, dann auswählen");
-    jCheckBox1.setText("männlich");
+    jCheckBox1.setToolTipText("Wenn mï¿½nnlich, dann auswï¿½hlen");
+    jCheckBox1.setText("mï¿½nnlich");
     jScrollPane2.setToolTipText("");
     jList1.setToolTipText("zu verteilende Personen");
     jList1.setModel(teamKern1);
@@ -300,16 +300,16 @@ public class Teamframe extends JFrame implements PropertyChangeListener {
     });
     jButton7.setText("Okay");
     personeneingabe1.setTitle("Neue Person eingeben...");
-    jCheckBox2.setToolTipText("Wenn männlich, dann auswählen");
-    jCheckBox2.setText("männlich");
+    jCheckBox2.setToolTipText("Wenn mï¿½nnlich, dann auswï¿½hlen");
+    jCheckBox2.setText("mï¿½nnlich");
     jPanel6.setLayout(gridLayout3);
     gridLayout3.setColumns(2);
     gridLayout3.setRows(3);
     jLabel5.setText("Alter bzw. Bewertung:");
     jLabel6.setText("Geschlecht:");
     jLabel7.setText("Name:");
-    geschlechtaendern.setText("männlich");
-    geschlechtaendern.setToolTipText("Wenn männlich, dann auswählen");
+    geschlechtaendern.setText("mï¿½nnlich");
+    geschlechtaendern.setToolTipText("Wenn mï¿½nnlich, dann auswï¿½hlen");
     jPanel7.setLayout(gridLayout4);
     gridLayout4.setColumns(2);
     gridLayout4.setRows(3);
@@ -331,7 +331,7 @@ public class Teamframe extends JFrame implements PropertyChangeListener {
       }
     });
     jButton9.setText("Okay");
-    personenaendern.setTitle("Personendaten ändern");
+    personenaendern.setTitle("Personendaten ï¿½ndern");
     personenaendern.setModal(true);
     jButton10.setText("Abbrechen");
     jButton10.addActionListener(new java.awt.event.ActionListener() {
@@ -349,8 +349,8 @@ public class Teamframe extends JFrame implements PropertyChangeListener {
     });
     jLabel11.setFont(new java.awt.Font("Dialog", 0, 18));
     jLabel11.setHorizontalAlignment(SwingConstants.CENTER);
-    jLabel11.setText("Selektierte Person wirklich löschen ?");
-    jDialog1.setTitle("Personendaten löschen");
+    jLabel11.setText("Selektierte Person wirklich lï¿½schen ?");
+    jDialog1.setTitle("Personendaten lï¿½schen");
     jDialog1.setModal(true);
     personenspeichern.setDialogTitle("Personendaten speichern unter...");
     personenspeichern.setFileFilter(teamFilter1);
@@ -366,7 +366,7 @@ public class Teamframe extends JFrame implements PropertyChangeListener {
 
     teamanzahlaendern.setTitle("Teamanzahl festlegen...");
     jPanel9.setLayout(flowLayout1);
-    jLabel13.setText("Gewünschte Teamanzahl:");
+    jLabel13.setText("Gewï¿½nschte Teamanzahl:");
     teamanzahl.setSelectionEnd(15);
     teamanzahl.setColumns(15);
     jButton12.setText("Abbrechen");
@@ -385,7 +385,7 @@ public class Teamframe extends JFrame implements PropertyChangeListener {
     });
     jMenu1.setMnemonic('V');
     jMenu1.setText("Verteilungskriterien...");
-    jCheckBoxMenuItem1.setToolTipText("Soll das Geschlecht der Person bei der Einteilung berücksichtigt " +
+    jCheckBoxMenuItem1.setToolTipText("Soll das Geschlecht der Person bei der Einteilung berï¿½cksichtigt " +
     "werden?");
     jCheckBoxMenuItem1.setSelected(true);
     jCheckBoxMenuItem1.setText("Geschlecht beachten");
@@ -395,7 +395,7 @@ public class Teamframe extends JFrame implements PropertyChangeListener {
         jCheckBoxMenuItem1_itemStateChanged(e);
       }
     });
-    jCheckBoxMenuItem2.setToolTipText("Soll das Alter bzw. die angegebene Bewertung berücksichtigt werden " +
+    jCheckBoxMenuItem2.setToolTipText("Soll das Alter bzw. die angegebene Bewertung berï¿½cksichtigt werden " +
     "?");
     jCheckBoxMenuItem2.setSelected(true);
     jCheckBoxMenuItem2.setText("Alter/Kriterium beachten");
@@ -436,7 +436,7 @@ public class Teamframe extends JFrame implements PropertyChangeListener {
       }
     });
     menuHelp.setText("Hilfe");
-    menuHelpAbout.setText("Über");
+    menuHelpAbout.setText("ï¿½ber");
     menuHelpAbout.addActionListener(new ActionListener()  {
 
       public void actionPerformed(ActionEvent e) {
@@ -556,7 +556,7 @@ public class Teamframe extends JFrame implements PropertyChangeListener {
       pd.setKriterium(Integer.parseInt(wert));
       teamKern1.addPersonendaten(pd);
     } catch (Exception ex) {
-      // vorläufig nichts tun
+      // vorlï¿½ufig nichts tun
     }
     personeneingabe.dispose();
 
@@ -571,12 +571,12 @@ public class Teamframe extends JFrame implements PropertyChangeListener {
   }
 
   void jButton8_actionPerformed(ActionEvent e) {
-    //Personenändern- Abbrechen
+    //Personenï¿½ndern- Abbrechen
     personenaendern.dispose();
   }
 
   void jButton9_actionPerformed(ActionEvent e) {
-    //personenändern-Okay
+    //personenï¿½ndern-Okay
     // zuerst die Werte updaten,
     String name=nameaendern.getText();
     boolean m=geschlechtaendern.isSelected();
@@ -588,7 +588,7 @@ public class Teamframe extends JFrame implements PropertyChangeListener {
       pd.setKriterium(Integer.parseInt(wert));
       teamKern1.updatePerson(pd);
     } catch (Exception ex) {
-      // vorläufig nichts tun
+      // vorlï¿½ufig nichts tun
     }
     // danach Dialog entfernen
     personenaendern.dispose();
@@ -626,8 +626,8 @@ public class Teamframe extends JFrame implements PropertyChangeListener {
     File datei=null;
     if (personenspeichern.showSaveDialog(this)==JFileChooser.APPROVE_OPTION) {
       datei=personenspeichern.getSelectedFile();
-      // jetzt File an teamKern1 übergeben, damit gespeichert werden kann
-      teamKern1.personenspeichern(datei);
+      // jetzt File an teamKern1 ï¿½bergeben, damit gespeichert werden kann
+      teamKern1.savePersons(datei);
 
     }
   }
@@ -642,7 +642,7 @@ public class Teamframe extends JFrame implements PropertyChangeListener {
   }
 
   void jMenuItem12_actionPerformed(ActionEvent e) {
-    teamKern1.einteilungerzeugen();
+    teamKern1.computeGrouping();
   }
 
   void jMenuItem8_actionPerformed(ActionEvent e) {
@@ -665,24 +665,24 @@ public class Teamframe extends JFrame implements PropertyChangeListener {
     } catch (NumberFormatException nfe) {
       an=0;
     }
-    if (an>0) teamKern1.setTeamanzahl(an);
+    if (an>0) teamKern1.setTeamCount(an);
 
   }
 
   void jCheckBoxMenuItem2_itemStateChanged(ItemEvent e) {
     if (jCheckBoxMenuItem2.isSelected()) {
-      teamKern1.setwertungbeachten(true);
+      teamKern1.setConsiderRating(true);
     } else {
-      teamKern1.setwertungbeachten(false);
+      teamKern1.setConsiderRating(false);
     }
   }
 
   void jCheckBoxMenuItem1_itemStateChanged(ItemEvent e) {
     // Geschlecht beachten ?
     if (jCheckBoxMenuItem1.isSelected()) {
-      teamKern1.setgeschlechtbeachten(true);
+      teamKern1.setConsiderGender(true);
     } else {
-      teamKern1.setgeschlechtbeachten(false);
+      teamKern1.setConsiderGender(false);
     }
   }
 
@@ -691,7 +691,7 @@ public class Teamframe extends JFrame implements PropertyChangeListener {
   }
 
   void jMenuItem5_actionPerformed(ActionEvent e) {
-      textDruck1.drucke(teamKern1,Long.toString(System.currentTimeMillis()),teamKern1.getgeschlechtbeachten(),teamKern1.getwertungbeachten());
+      textDruck1.drucke(teamKern1,Long.toString(System.currentTimeMillis()),teamKern1.getConsiderGender(),teamKern1.getConsiderRating());
   }
 
   void jMenuItem4_actionPerformed(ActionEvent e) {

@@ -1,8 +1,8 @@
 
 /**
  * Title:        Team 2 <p>
- * Description:  Gruppeneinteilungsprogramm für Ferienfreizeiten...
- * Version für Java 2 Plattform<p>
+ * Description:  Gruppeneinteilungsprogramm fï¿½r Ferienfreizeiten...
+ * Version fï¿½r Java 2 Plattform<p>
  * Copyright:    Copyright (c) Manfred Schenk<p>
  * Company:      <p>
  * @author Manfred Schenk
@@ -13,24 +13,28 @@ package de.zerobyte.apps.team2;
 import javax.swing.table.*;
 import javax.swing.*;
 import javax.swing.event.*;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 import java.util.Enumeration;
 import java.io.*;
 import java.beans.*;
+
 import de.zerobyte.util.misc.*;
 import de.zerobyte.util.develop.Diagnostic;
 
 public class TeamKern extends AbstractTableModel implements TableModel,ListModel,ListSelectionListener {
 
   private Personendaten[] myPersonen;
-  private boolean mygeschlechtbeachten=true;
-  private boolean mywertungbeachten=true;
+  private boolean considerGender=true;
+  private boolean considerRating=true;
   private int myZaehler;
   private int myMaxZaehler=30;
-  private int myTeamanzahl=2;
-  private int myPersonenProTeam=1;
-  private int myaktuellePerson=0;
-  private Personendaten[][] myEinteilung;
+  private int teamCount=2;
+  private int personsPerTeam=1;
+  private int currentPerson=0;
+  private Personendaten[][] grouping;
   private Vector myListDataListeners=new Vector();
   private PropertyChangeSupport myPropertyChangeSupport=new PropertyChangeSupport(this);
   private int myaendernperson=0;
@@ -40,23 +44,23 @@ public class TeamKern extends AbstractTableModel implements TableModel,ListModel
   public TeamKern() {
     myPersonen=new Personendaten[30];
     myZaehler=0;
-    myEinteilung=new Personendaten[myTeamanzahl][myPersonenProTeam];
-    myEinteilung[0][0]=new Personendaten();
-    myEinteilung[0][0].setName("keine Einteilung vorhanden");
+    grouping=new Personendaten[teamCount][personsPerTeam];
+    grouping[0][0]=new Personendaten();
+    grouping[0][0].setName("keine Einteilung vorhanden");
   }
-  public boolean getgeschlechtbeachten() {
-    return mygeschlechtbeachten;
+  public boolean getConsiderGender() {
+    return considerGender;
   }
-  public boolean getwertungbeachten() {
-    return mywertungbeachten;
+  public boolean getConsiderRating() {
+    return considerRating;
   }
-  public void setgeschlechtbeachten(boolean bo) {
-    mygeschlechtbeachten=bo;
+  public void setConsiderGender(boolean bo) {
+    considerGender=bo;
   }
-  public void setwertungbeachten(boolean bo) {
-    mywertungbeachten=bo;
+  public void setConsiderRating(boolean bo) {
+    considerRating=bo;
   }
-  public void personenspeichern(File file) {
+  public void savePersons(File file) {
   File datei;
     if (file.getName().endsWith(".team")) datei=file; else datei=new File(file.getAbsolutePath()+".team");
 
@@ -81,11 +85,11 @@ public class TeamKern extends AbstractTableModel implements TableModel,ListModel
       FileOutputStream fos=new FileOutputStream(datei);
       DataOutputStream dos=new DataOutputStream(fos);
       dos.writeBytes("Teameinteilung erzeugt durch Team V 2beta\n\r");
-      dos.writeBytes("(c) 2000 by ZERO-Byte (Manfred Schenk)   \n\r");
+      dos.writeBytes("(c) 2000 - 2015 by ZERO-Byte (Manfred Schenk)   \n\r");
       dos.writeBytes("\n\r");
       dos.writeBytes("eingestellte Optionen:\n\r");
-      if (mygeschlechtbeachten) dos.writeBytes("Geschlecht beruecksichtigen\n\r");
-      if (mywertungbeachten) dos.writeBytes("Alter bzw. Faehigkeit beruecksichtigen\n\r");
+      if (considerGender) dos.writeBytes("Geschlecht beruecksichtigen\n\r");
+      if (considerRating) dos.writeBytes("Alter bzw. Faehigkeit beruecksichtigen\n\r");
       dos.writeBytes("\n\r");
       for (int i=0;i<getColumnCount();i++) {
         dos.writeBytes("Team "+(i+1)+":\n\r");
@@ -115,8 +119,8 @@ public class TeamKern extends AbstractTableModel implements TableModel,ListModel
       dos.writeBytes("</head> \r\n");
       dos.writeBytes("<body bgcolor=\"#FFFFFF\">\r\n");
       dos.writeBytes("<h2>Optionen:</h2>\r\n");
-      if (mygeschlechtbeachten) dos.writeBytes("Geschlecht ber&uuml;cksichtigen<P>\r\n");
-      if (mywertungbeachten) dos.writeBytes("Alter bzw. F&auml;higkeit ber&uuml;cksichtigen<P>\r\n");
+      if (considerGender) dos.writeBytes("Geschlecht ber&uuml;cksichtigen<P>\r\n");
+      if (considerRating) dos.writeBytes("Alter bzw. F&auml;higkeit ber&uuml;cksichtigen<P>\r\n");
       dos.writeBytes("<h2>Teams:</h2>\r\n");
       dos.writeBytes("<table border=1 cellpadding=3 width=100%>\r\n");
       dos.writeBytes("<tr>\r\n");
@@ -152,12 +156,12 @@ public class TeamKern extends AbstractTableModel implements TableModel,ListModel
 
       myaendernperson=0;
       myMaxZaehler=myZaehler;
-      myTeamanzahl=2;
-      myPersonenProTeam=1;
-      myaktuellePerson=0;
-      myEinteilung=new Personendaten[1][1];
-      myEinteilung[0][0]=new Personendaten();
-      myEinteilung[0][0].setName("keine Einteilung vorhanden");
+      teamCount=2;
+      personsPerTeam=1;
+      currentPerson=0;
+      grouping=new Personendaten[1][1];
+      grouping[0][0]=new Personendaten();
+      grouping[0][0].setName("keine Einteilung vorhanden");
       ois.close();
       // jetzt die ListDataEvents verschicken
       Enumeration li=myListDataListeners.elements();
@@ -208,7 +212,7 @@ public class TeamKern extends AbstractTableModel implements TableModel,ListModel
 
   public void removePersonendaten(int position) {
     if ((position<=0)&&(myZaehler==0)) {
-      // nichts da zum löschen :(
+      // nichts da zum lï¿½schen :(
     } else {
       if (myZaehler==1) {
         myZaehler=0;
@@ -233,27 +237,27 @@ public class TeamKern extends AbstractTableModel implements TableModel,ListModel
        myPropertyChangeSupport.firePropertyChange(ANZAHL,0,myZaehler);
     }
   }
-  public void setTeamanzahl(int anz) {
-    if (anz<=myZaehler) {
-      myTeamanzahl=anz;
+  public void setTeamCount(int count) {
+    if (count<=myZaehler) {
+      teamCount=count;
       // Werte fuer Table neu initialisieren
-      myPersonenProTeam=1;
-      myEinteilung=new Personendaten[myTeamanzahl][myPersonenProTeam];
+      personsPerTeam=1;
+      grouping=new Personendaten[teamCount][personsPerTeam];
       fireTableStructureChanged();
     }
 
   }
 
-  public void einteilungerzeugen() {
+  public void computeGrouping() {
     Diagnostic.println(Diagnostic.INFO,"TeamKern -einteilungerzeugen: Anfang");
-    myPersonenProTeam=myZaehler/myTeamanzahl;
-    if (myZaehler%myTeamanzahl!=0) myPersonenProTeam++;
+    personsPerTeam=myZaehler/teamCount;
+    if (myZaehler%teamCount!=0) personsPerTeam++;
     //benoetigte Daten:
     // Anzahl der Gruppen in myTeamanzahl
     // zu verteilende Personen in myPersonen
     // mygeschlechtbeachten & mywertungbeachten als Optionen
-    myPropertyChangeSupport.firePropertyChange(STATUS,"","Erzeugung läuft...");
-    myEinteilung=new Personendaten[myTeamanzahl][myPersonenProTeam];
+    myPropertyChangeSupport.firePropertyChange(STATUS,"","Erzeugung lï¿½uft...");
+    grouping=new Personendaten[teamCount][personsPerTeam];
     fireTableStructureChanged();
 
     Object[] workarray=null;
@@ -264,26 +268,17 @@ public class TeamKern extends AbstractTableModel implements TableModel,ListModel
     // angelegt werden.
     Personendaten[] men,women;
     men=null;women=null;
-    if (mygeschlechtbeachten) {
-      Vector m=new Vector();
-      Vector w=new Vector();
+    if (considerGender) {
+      List<Personendaten> manList=new ArrayList<>();
+      List<Personendaten> womanList=new ArrayList<>();
       for (int i=0;i<persons.length;i++) {
-        if (persons[i].istMaennlich()) m.add(persons[i]); else w.add(persons[i]);
+        if (persons[i].istMaennlich()) manList.add(persons[i]); else womanList.add(persons[i]);
       };
-      Enumeration e1=m.elements();
-      men=new Personendaten[m.size()];
-      women=new Personendaten[w.size()];
-      int count=0;
-      while (e1.hasMoreElements()) {
-        men[count]=(Personendaten)(e1.nextElement());
-        count++;
-      };
-      count=0;
-      e1=w.elements();
-      while (e1.hasMoreElements()) {
-        women[count]=(Personendaten)(e1.nextElement());
-        count++;
-      };
+      
+      men=new Personendaten[manList.size()];
+      women=new Personendaten[womanList.size()];
+      men = manList.toArray(men);
+      women= womanList.toArray(women);
       workarray=new Object[2];
       workarray[0]=men;
       workarray[1]=women;
@@ -293,12 +288,12 @@ public class TeamKern extends AbstractTableModel implements TableModel,ListModel
       System.arraycopy(persons,0,workarray[0],0,myZaehler);
     };
     int[] counter=new int[2];
-    if (!mygeschlechtbeachten) counter[1]=0;
+    if (!considerGender) counter[1]=0;
     for (int j=0;j<workarray.length;j++) {
       counter[j]=((Personendaten[])workarray[j]).length;
     };
     // falls die Wertung beachtet werden soll, muessen nun die arrays sortiert werden
-    if (mywertungbeachten) {
+    if (considerRating) {
       int[] order=new int[1];order[0]=0;
 
       for (int i=0;i<workarray.length;i++) {
@@ -314,14 +309,14 @@ public class TeamKern extends AbstractTableModel implements TableModel,ListModel
     //hier beginnt die eigentliche Verteilung
     // Alle Personen muessen verteilt werden
     Personendaten pd=null;
-    Object[] teams=new Object[myTeamanzahl];
+    Object[] teams=new Object[teamCount];
     int flag=0;//welches Geschlecht ist als naechstes dran ?
     int nr=0;
     Personendaten[] pda=null;
     Object pdao=null;
     for (int i=0;i<myZaehler;i++) {
       Diagnostic.println(Diagnostic.INFO,"Schritt:"+i);
-      if ((i % myTeamanzahl)==0) {
+      if ((i % teamCount)==0) {
         Diagnostic.println(Diagnostic.INFO,"Wir permutieren");
         //vor jeder Runde die Teamreihenfolge permutieren und
         //vor jeder Verteilrunde bei Bedarf Geschlecht wechseln
@@ -329,7 +324,7 @@ public class TeamKern extends AbstractTableModel implements TableModel,ListModel
           flag=1-flag;
         };
         // teams mit den Werten 1..anzahl vorbelegen
-        for (int j=0;j<myTeamanzahl;j++) {
+        for (int j=0;j<teamCount;j++) {
           teams[j]=new Integer(j);
         };
         // neue Permutation
@@ -341,15 +336,15 @@ public class TeamKern extends AbstractTableModel implements TableModel,ListModel
       counter[flag]--;
       if (counter[flag]==0) {
         flag=1-flag;
-        // wenn von einem Geschlecht niemand mehr da, dann mit dem anderen auffüllen
+        // wenn von einem Geschlecht niemand mehr da, dann mit dem anderen auffï¿½llen
       }
 
       // jetzt die Personendaten in das gewaehlte Team einfuegen:
       nr=0;
-      while ((myEinteilung[((Integer)teams[i%myTeamanzahl]).intValue()][nr]!=null)&&(nr<myPersonenProTeam)) {
+      while ((grouping[((Integer)teams[i%teamCount]).intValue()][nr]!=null)&&(nr<personsPerTeam)) {
         nr++;
       }
-      myEinteilung[((Integer)teams[i%myTeamanzahl]).intValue()][nr]=pd;
+      grouping[((Integer)teams[i%teamCount]).intValue()][nr]=pd;
 
 
 
@@ -361,7 +356,7 @@ public class TeamKern extends AbstractTableModel implements TableModel,ListModel
   }
   // Methoden fuer ListSelectionListener
   public void valueChanged(ListSelectionEvent e) {
-      myaktuellePerson=((JList)e.getSource()).getSelectedIndex();
+      currentPerson=((JList)e.getSource()).getSelectedIndex();
   }
   // Methoden fuer das Interface TableModel
   public String getColumnName(int col) {
@@ -371,8 +366,8 @@ public class TeamKern extends AbstractTableModel implements TableModel,ListModel
   public Object getValueAt(int row,int column) {
     //System.err.println("getValueAt("+row+","+column+") ");
     try {
-      if (myEinteilung[column][row]!=null) {
-        return (myEinteilung[column][row]).getName();
+      if (grouping[column][row]!=null) {
+        return (grouping[column][row]).getName();
       } else {
         return "---";
       }
@@ -382,11 +377,11 @@ public class TeamKern extends AbstractTableModel implements TableModel,ListModel
   }
   public int getRowCount() {
     //System.err.println("getRowCount");
-    return myPersonenProTeam;
+    return personsPerTeam;
   }
   public int getColumnCount() {
     //System.err.println("getColumnCount");
-    return myTeamanzahl;
+    return teamCount;
   }
 
   // Methoden fuer das Interface ListModel
