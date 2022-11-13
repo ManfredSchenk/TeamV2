@@ -7,3 +7,6 @@ Dieses Projekt ist in den 1990ern entstanden als Hilfsmittel für Freunde von mi
 
 
 Ich habe das Projekt auf github hochgeladen um es zum Einen anderen potentiellen Nutzern zur Verfügung zu stellen und zum Anderen als persönliches Übungsprojekt für den Umgang mit GitHub.
+
+Zur Nutzung wird eine Java-Installation mit Swing benötigt. Das Tool wurde ursprünglich mit Java 1.2 entwickelt, sollte aber auch noch mit OpenJDK 11 und später lauffähig und auch übersetzbar sein.
+
